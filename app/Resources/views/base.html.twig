@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Test Application{% endblock %}</title>
+        <link rel="stylesheet"
+            href="{{ asset('assets/vendor/bootstrap/dist/css/bootstrap.min.css') }}">
+    </head>
+    <body>
+        {% block menu %}
+        {% set currentPath = app.request.get('_route') %}
+        <div class="container ">
+          <ul class="nav nav-tabs m-b-3  m-t-1">
+            <li class="nav-item">
+              <a class="nav-link  {% if currentPath == 'homepage' %}active{% endif %} " href="{{path('homepage')}}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link  {% if currentPath == 'about' %}active{% endif %}" href="{{path('about')}}">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link  {% if currentPath == 'departments' %}active{% endif %}" href="{{path('departments')}}">Departments</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link  {% if currentPath == 'contact' %}active{% endif %} " href="{{path('contact')}}">Contact</a>
+            </li>
+            <li class="nav-item" style="float:right;">
+              <a class="nav-link " href="{{path('fos_user_security_login')}}">Login / Register</a>
+            </li>
+
+          </ul>
+        </div>
+        {% endblock %}
+
+        <div id="content">
+            {% block body %}{% endblock %}
+        </div>
+    </body>
+</html>
