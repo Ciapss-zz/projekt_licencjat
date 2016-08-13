@@ -9,7 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 /**
  *
  */
-class TestForm extends AbstractType
+class PersonalDataForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
