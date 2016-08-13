@@ -5,6 +5,12 @@
         <title>{% block title %}Test Application{% endblock %}</title>
         <link rel="stylesheet"href="{{ asset('assets/vendor/bootstrap/dist/css/bootstrap.min.css') }}">
         <link rel="stylesheet"href="{{ asset('assets/css/main.css') }}">
+
+        {% block javascripts %}
+            {% javascripts '@AppBundle/Resources/public/js/*' %}
+                <script src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% endblock %}
     </head>
     <body>
         {% block menu %}

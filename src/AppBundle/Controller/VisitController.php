@@ -16,8 +16,22 @@ class VisitController extends Controller
     public function registerAction(Request $request)
     {
         $visit = new Visit();
-
+        $user = $this -> getUser();
         $form = $this->createForm(VisitRegisterForm::class, $visit);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $visit = $form->getData();
+            $visit -> setUser($user);
+            dump($visit);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($visit);
+            $em->flush();
+
+            return $this->redirectToRoute('visit_register');
+        }
         return $this->render('static/visit.html.twig',[
           'form' => $form -> createView()
         ]);
