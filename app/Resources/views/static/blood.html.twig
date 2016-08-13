@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="page-header">
+            <h1 class="display-3">
+                Blood-test results
+            </h1>
+        </div>
+
+        <table class="table table-bordered ">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>RBC</th>
+                    <th>HGB</th>
+                    <th>HCT</th>
+                    <th>HCV</th>
+                    <th>MCH</th>
+                    <th>MCHC</th>
+                    <th>WBC</th>
+                    <th>PLT</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for bloodd in blood %}
+
+                    <tr>
+                        <th>{{loop.index}}</th>
+                        <th {% if data.sex == "male" %} {% if bloodd.rbc < 4.5 or bloodd.rbc  > 6.5 %} class="table-danger" {% endif %} {% else %} {% if bloodd.rbc < 3.9 or bloodd.rbc  > 5.6 %} class="table-danger" {% endif %} {% endif %}>
+                            {{bloodd.rbc}}
+                        </th>
+                        <th {% if data.sex == "male" %} {% if bloodd.hgb < 7.4 or bloodd.hgb  > 10.5 %} class="table-danger" {% endif %} {% else %} {% if bloodd.hgb < 6.8 or bloodd.hgb  > 9.3 %} class="table-danger" {% endif %} {% endif %}>
+                            {{bloodd.hgb}}}>{{bloodd.hgb}}</th>
+                        <th {% if data.sex == "male" %} {% if bloodd.hct < 40 or bloodd.hct  > 51 %} class="table-danger" {% endif %} {% else %} {% if bloodd.hct < 37 or bloodd.hct  > 47 %} class="table-danger" {% endif %} {% endif %}>
+                            {{bloodd.hct}}>{{bloodd.hct}}</th>
+                        <th {% if bloodd.hct < 80 or bloodd.hct  > 97 %} class="table-danger" {% endif %}>{{bloodd.hct}}</th>
+                        <th {% if bloodd.mch < 26 or bloodd.mch  > 32 %} class="table-danger" {% endif %}>{{bloodd.mch}}</th>
+                        <th {% if bloodd.mchc < 31 or bloodd.mchc  > 36 %} class="table-danger" {% endif %}>{{bloodd.mchc}}</th>
+                        <th {% if bloodd.wbc < 4.1 or bloodd.wbc  > 10.9 %} class="table-danger" {% endif %}>{{bloodd.wbc}}</th>
+                        <th {% if bloodd.plt < 140 or bloodd.plt  > 440 %} class="table-danger" {% endif %}>{{bloodd.plt}}</th>
+                    </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block stylesheets %}{% endblock %}

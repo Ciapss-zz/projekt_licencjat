@@ -3,18 +3,17 @@
 
 {% block body %}
 <div class="container">
-  <div class="jumbotron">
-    <h1 class="display-3"> dashboard</h1>
-    <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-    <hr class="m-y-2">
-    <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-    <p class="lead">
-
-    </p>
-    <div class="">
-      {{form(form)}}
+    <div class="page-header">
+        <h1 class="display-3">
+            Personal Data
+        </h1>
     </div>
-  </div>
+    <div class="jumbotron m-t-3">
+        <div class="container">
+            {{form(form)}}
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock %}

@@ -5,6 +5,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+
 
 /**
  *
@@ -21,7 +23,12 @@ class PersonalDataForm extends AbstractType
         ->add('street')
         ->add('post_code')
         ->add('city')
-        ->add('sex')
+        ->add('sex', ChoiceType::class,[
+          'choices' => [
+            'Male' => 'male',
+            'Female'=> 'female'
+          ]
+        ])
         ->add('save', SubmitType::class)
       ;
     }

@@ -1,5 +1,6 @@
 <?php
 
+
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -9,7 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * Entity\Visit
  *
  * @ORM\Entity(repositoryClass="VisitRepository")
- * @ORM\Table(name="visit")
+ * @ORM\Table(name="visit", indexes={@ORM\Index(name="fk_visit_doctor1_idx", columns={"doctor_id"}), @ORM\Index(name="fk_visit_user1_idx", columns={"user_id"})})
  */
 class Visit
 {
@@ -21,29 +22,34 @@ class Visit
     protected $id;
 
     /**
-     * @ORM\Column(name="`date`", type="string", length=45, nullable=true)
+     * @ORM\Column(name="`date`", type="datetime", nullable=true)
      */
     protected $date;
 
     /**
-     * @ORM\OneToMany(targetEntity="Doctor", mappedBy="visit")
-     * @ORM\JoinColumn(name="id", referencedColumnName="visit_idvisit", nullable=false)
+     * @ORM\Column(type="integer")
      */
-    protected $doctors;
+    protected $doctor_id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="visits")
-     * @ORM\JoinTable(name="visit_has_user",
-     *     joinColumns={@ORM\JoinColumn(name="visit_id", referencedColumnName="id", nullable=false)},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)}
-     * )
+     * @ORM\Column(type="integer")
      */
-    protected $users;
+    protected $user_id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Doctor", inversedBy="visits")
+     * @ORM\JoinColumn(name="doctor_id", referencedColumnName="id", nullable=false)
+     */
+    protected $doctor;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="visits")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
+     */
+    protected $user;
 
     public function __construct()
     {
-        $this->doctors = new ArrayCollection();
-        $this->users = new ArrayCollection();
     }
 
     /**
@@ -72,7 +78,7 @@ class Visit
     /**
      * Set the value of date.
      *
-     * @param string $date
+     * @param \DateTime $date
      * @return \Entity\Visit
      */
     public function setDate($date)
@@ -85,7 +91,7 @@ class Visit
     /**
      * Get the value of date.
      *
-     * @return string
+     * @return \DateTime
      */
     public function getDate()
     {
@@ -93,81 +99,99 @@ class Visit
     }
 
     /**
-     * Add Doctor entity to collection (one to many).
+     * Set the value of doctor_id.
+     *
+     * @param integer $doctor_id
+     * @return \Entity\Visit
+     */
+    public function setDoctorId($doctor_id)
+    {
+        $this->doctor_id = $doctor_id;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of doctor_id.
+     *
+     * @return integer
+     */
+    public function getDoctorId()
+    {
+        return $this->doctor_id;
+    }
+
+    /**
+     * Set the value of user_id.
+     *
+     * @param integer $user_id
+     * @return \Entity\Visit
+     */
+    public function setUserId($user_id)
+    {
+        $this->user_id = $user_id;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of user_id.
+     *
+     * @return integer
+     */
+    public function getUserId()
+    {
+        return $this->user_id;
+    }
+
+    /**
+     * Set Doctor entity (many to one).
      *
      * @param \Entity\Doctor $doctor
      * @return \Entity\Visit
      */
-    public function addDoctor(Doctor $doctor)
+    public function setDoctor(Doctor $doctor = null)
     {
-        $this->doctors[] = $doctor;
+        $this->doctor = $doctor;
 
         return $this;
     }
 
     /**
-     * Remove Doctor entity from collection (one to many).
+     * Get Doctor entity (many to one).
      *
-     * @param \Entity\Doctor $doctor
-     * @return \Entity\Visit
+     * @return \Entity\Doctor
      */
-    public function removeDoctor(Doctor $doctor)
+    public function getDoctor()
     {
-        $this->doctors->removeElement($doctor);
-
-        return $this;
+        return $this->doctor;
     }
 
     /**
-     * Get Doctor entity collection (one to many).
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getDoctors()
-    {
-        return $this->doctors;
-    }
-
-    /**
-     * Add User entity to collection.
+     * Set User entity (many to one).
      *
      * @param \Entity\User $user
      * @return \Entity\Visit
      */
-    public function addUser(User $user)
+    public function setUser(User $user = null)
     {
-        $user->addVisit($this);
-        $this->users[] = $user;
+        $this->user = $user;
 
         return $this;
     }
 
     /**
-     * Remove User entity from collection.
+     * Get User entity (many to one).
      *
-     * @param \Entity\User $user
-     * @return \Entity\Visit
+     * @return \Entity\User
      */
-    public function removeUser(User $user)
+    public function getUser()
     {
-        $user->removeVisit($this);
-        $this->users->removeElement($user);
-
-        return $this;
-    }
-
-    /**
-     * Get User entity collection.
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getUsers()
-    {
-        return $this->users;
+        return $this->user;
     }
 
     public function __sleep()
     {
-        return array('id', 'date');
+        return array('id', 'date', 'doctor_id', 'user_id');
     }
 }

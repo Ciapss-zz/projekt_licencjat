@@ -33,7 +33,8 @@ class User extends BaseUser
     protected $dataPersonal;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Visit", mappedBy="users")
+     * @ORM\OneToMany(targetEntity="Visit", mappedBy="user")
+     * @ORM\JoinColumn(name="id", referencedColumnName="user_id", nullable=false)
      */
     protected $visits;
 
@@ -107,39 +108,39 @@ class User extends BaseUser
     }
 
     /**
-     * Add Visit entity to collection.
-     *
-     * @param \Entity\Visit $visit
-     * @return \Entity\User
-     */
-    public function addVisit(Visit $visit)
-    {
-        $this->visits[] = $visit;
+      * Add Visit entity to collection (one to many).
+      *
+      * @param \Entity\Visit $visit
+      * @return \Entity\User
+      */
+     public function addVisit(Visit $visit)
+     {
+         $this->visits[] = $visit;
 
-        return $this;
-    }
+         return $this;
+     }
 
-    /**
-     * Remove Visit entity from collection.
-     *
-     * @param \Entity\Visit $visit
-     * @return \Entity\User
-     */
-    public function removeVisit(Visit $visit)
-    {
-        $this->visits->removeElement($visit);
+     /**
+      * Remove Visit entity from collection (one to many).
+      *
+      * @param \Entity\Visit $visit
+      * @return \Entity\User
+      */
+     public function removeVisit(Visit $visit)
+     {
+         $this->visits->removeElement($visit);
 
-        return $this;
-    }
+         return $this;
+     }
 
-    /**
-     * Get Visit entity collection.
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getVisits()
-    {
-        return $this->visits;
-    }
+     /**
+      * Get Visit entity collection (one to many).
+      *
+      * @return \Doctrine\Common\Collections\Collection
+      */
+     public function getVisits()
+     {
+         return $this->visits;
+     }
 
 }
