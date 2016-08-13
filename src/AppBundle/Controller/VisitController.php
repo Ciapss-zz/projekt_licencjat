@@ -5,6 +5,8 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Form\VisitRegisterForm;
+use AppBundle\Entity\Visit;
 
 class VisitController extends Controller
 {
@@ -13,7 +15,11 @@ class VisitController extends Controller
      */
     public function registerAction(Request $request)
     {
+        $visit = new Visit();
 
-        return $this->render('static/visit.html.twig');
+        $form = $this->createForm(VisitRegisterForm::class, $visit);
+        return $this->render('static/visit.html.twig',[
+          'form' => $form -> createView()
+        ]);
     }
 }
