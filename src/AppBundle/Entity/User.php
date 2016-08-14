@@ -23,7 +23,7 @@ class User extends BaseUser
 
     /**
      * @ORM\OneToMany(targetEntity="Blood", mappedBy="user")
-     * @ORM\JoinColumn(name="id", referencedColumnName="user_id", nullable=false)
+     * @ORM\JoinColumn(name="id", referencedColumnName="user_id", nullable=false , onDelete="CASCADE")
      */
     protected $bloods;
 
@@ -34,7 +34,7 @@ class User extends BaseUser
 
     /**
      * @ORM\OneToMany(targetEntity="Visit", mappedBy="user")
-     * @ORM\JoinColumn(name="id", referencedColumnName="user_id", nullable=false)
+     * @ORM\JoinColumn(name="id", referencedColumnName="user_id", nullable=false, onDelete="CASCADE")
      */
     protected $visits;
 

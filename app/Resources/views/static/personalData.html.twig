@@ -2,22 +2,27 @@
 {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
 
 {% block body %}
-<div class="container">
-    <div class="page-header">
-        <h1 class="display-3">
-            Personal Data
-        </h1>
-    </div>
-    <div class="jumbotron m-t-3">
-        <div class="container">
-            {{form(form)}}
-            </div>
+
+    <div class="container">
+        <div class="page-header">
+            <h1 class="display-3">
+                Personal Data
+            </h1>
         </div>
+        <div class="jumbotron m-t-3">
+            <div class="container">
+                {{form(form)}}
+            </div>
+            {% for flash_message in app.session.flashBag.get('notice') %}
+              <div class="alert alert-success m-t-2" role="alert">
+                  <div class="flash-notice">
+                      {{ flash_message }}
+                  </div>
+                </div>
+            {% endfor %}
+          </div>
     </div>
-</div>
 
 {% endblock %}
 
-{% block stylesheets %}
-
-{% endblock %}
+{% block stylesheets %}{% endblock %}

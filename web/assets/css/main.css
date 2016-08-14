@@ -1,3 +1,6 @@
 .inline-block {
     display: inline-block
 }
+table {
+    font-size: 13px;
+}

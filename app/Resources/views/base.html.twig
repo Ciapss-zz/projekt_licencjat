@@ -5,7 +5,6 @@
         <title>{% block title %}Test Application{% endblock %}</title>
         <link rel="stylesheet"href="{{ asset('assets/vendor/bootstrap/dist/css/bootstrap.min.css') }}">
         <link rel="stylesheet"href="{{ asset('assets/css/main.css') }}">
-
         {% block javascripts %}
             {% javascripts '@AppBundle/Resources/public/js/*' %}
                 <script src="{{ asset_url }}"></script>
@@ -29,14 +28,21 @@
             <li class="nav-item">
               <a class="nav-link  {% if currentPath == 'contact' %}active{% endif %} " href="{{path('contact')}}">Contact</a>
             </li>
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            <li class="nav-item" style="float:right;">
+                  <a class="nav-link" href="{{ path('fos_user_security_logout') }}">Logout</a>
+            </li>
+            <li class="nav-item" style="float:right;">
+              <a class="nav-link {% if currentPath == 'dashboard' or currentPath == 'dashboard_admin' %}active{% endif %}" href="{{path('dashboard')}}">My Account</a>
+            </li>
+            {% else %}
             <li class="nav-item" style="float:right;">
               <a class="nav-link " href="{{path('fos_user_security_login')}}">Login / Register</a>
             </li>
-
+            {% endif %}
           </ul>
         </div>
         {% endblock %}
-
         <div id="content">
             {% block body %}{% endblock %}
         </div>

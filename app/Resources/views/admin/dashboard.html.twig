@@ -23,6 +23,7 @@
                 <th>Post code</th>
                 <th>City</th>
                 <th>Male/Female</th>
+                <th>Blood Test</th>
                 <th>Options</th>
             </tr>
         </thead>
@@ -39,8 +40,13 @@
                 <th>{{patient.dataPersonal.sex}}</th>
                 <th>
                   <div class="btn-group" role="group">
-                    <a href="#"><button type="button" class="btn btn-info  btn-sm m-r">Edit</button></a>
-                    <a href="#"><button type="button" class="btn btn-danger btn-sm ">Delete</button></a>
+                    <a href="{{path('blood_add', {'id':patient.id})}}"><button type="button" class="btn btn-success btn-sm ">Blood test</button></a>
+                  </div>
+                </th>
+                <th>
+                  <div class="btn-group" role="group">
+                    <a href="{{path('user_edit', {'id':patient.id})}}"><button type="button" class="btn btn-info  btn-sm m-r">Edit</button></a>
+                    <a href="{{path('user_delete', {'id':patient.id})}}"><button type="button" class="btn btn-danger btn-sm ">Delete</button></a>
                   </div>
                 </th>
             </tr>

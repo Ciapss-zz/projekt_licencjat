@@ -68,7 +68,7 @@ class DataPersonal
 
     /**
      * @ORM\OneToOne(targetEntity="User", inversedBy="dataPersonal")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true , onDelete="CASCADE")
      */
     protected $user;
 
