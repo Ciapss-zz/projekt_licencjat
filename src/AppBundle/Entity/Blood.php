@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Entity\Blood
@@ -70,6 +71,30 @@ class Blood
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      */
     protected $user;
+
+    /**
+     * @var \DateTime $created
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    private $created;
+
+    /**
+     * @var \DateTime $updated
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     */
+    private $updated;
+
+    /**
+     * @var \DateTime $contentChanged
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Timestampable(on="change", field={"title", "body"})
+     */
+    private $contentChanged;
 
     public function __construct()
     {
@@ -326,6 +351,21 @@ class Blood
     public function getUser()
     {
         return $this->user;
+    }
+
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
+    public function getContentChanged()
+    {
+        return $this->contentChanged;
     }
 
     public function __sleep()

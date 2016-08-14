@@ -46,37 +46,30 @@ class UserController extends Controller
      */
     public function editAction(Request $request, User $user, $id)
     {
-        $repository = $this->getDoctrine()->getRepository('AppBundle:User');
+      $repository = $this->getDoctrine()->getRepository('AppBundle:User');
+      $user = $repository-> findOneById($id);
+      $data = $user -> getDataPersonal();
+      $form = $this->createForm(PersonalDataForm::class, $data) -> setData($data);
+      $form->handleRequest($request);
 
-        $user = $repository-> findById($id);
-        dump($user);
-        $data = $user[0] -> getDataPersonal();
+      if ($form->isSubmitted() && $form->isValid()) {
+          $data = $form->getData();
+          $em = $this->getDoctrine()->getManager();
+          $em->persist($data);
+          $em->flush();
 
+          $this->addFlash(
+            'notice',
+            'Your changes were saved!'
+        );
 
+          return $this->redirectToRoute('user_edit', [
+          'id' => $id
+        ]);
+      }
 
-        $form = $this->createForm(PersonalDataForm::class, $data) -> setData($data);
-
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($data);
-            $em->flush();
-
-            $this->addFlash(
-              'notice',
-              'Your changes were saved!'
-          );
-
-            return $this->redirectToRoute('user_edit', [
-            'id' => $id
-          ]);
-        }
-
-        return $this->render('static/personalData.html.twig', [
-        'form' => $form->createView(),
-      ]);
-    }
+      return $this->render('static/personalData.html.twig', [
+      'form' => $form->createView(),
+    ]);
+  }
 }
