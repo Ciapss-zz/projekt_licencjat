@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container">
+  <div class="jumbotron">
+    {% if personalData is empty %}
+      <h1>Please complete Your <a href="{{path('personal_data')}}">Personal Data</a></h1>
+    {% else %}
+        <h1 class="display-3">Hello dr. {{personalData.name}} {{personalData.surname}}</h1>
+    {% endif %}
+
+    <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+    <hr class="m-y-2">
+    <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+    <table class="table table-bordered table-inverse">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Pesel</th>
+                <th>Street</th>
+                <th>Post code</th>
+                <th>City</th>
+                <th>Male/Female</th>
+                <th>Options</th>
+            </tr>
+        </thead>
+        <tbody>
+          {% for patient in patients %}
+            <tr>
+                <th>{{loop.index}}</th>
+                <th>{{patient.dataPersonal.name}}</th>
+                <th>{{patient.dataPersonal.surname}}</th>
+                <th>{{patient.dataPersonal.pesel}}</th>
+                <th>{{patient.dataPersonal.street}}</th>
+                <th>{{patient.dataPersonal.postCode}}</th>
+                <th>{{patient.dataPersonal.city}}</th>
+                <th>{{patient.dataPersonal.sex}}</th>
+                <th>
+                  <div class="btn-group" role="group">
+                    <a href="#"><button type="button" class="btn btn-info  btn-sm m-r">Edit</button></a>
+                    <a href="#"><button type="button" class="btn btn-danger btn-sm ">Delete</button></a>
+                  </div>
+                </th>
+            </tr>
+          {% endfor %}
+
+        </tbody>
+    </table>
+
+  </div>
+</div>
+
+{% endblock %}
+
+{% block stylesheets %}
+
+{% endblock %}

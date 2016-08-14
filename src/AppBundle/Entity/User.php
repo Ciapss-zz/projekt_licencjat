@@ -45,6 +45,8 @@ class User extends BaseUser
         $this->bloods = new ArrayCollection();
         $this->dataPersonals = new ArrayCollection();
         $this->visits = new ArrayCollection();
+
+        $this->roles = array('ROLE_USER');
     }
 
     /**

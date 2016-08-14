@@ -17,6 +17,9 @@ class DashboardController extends Controller
         $user = $this -> getUser();
         $personalData = $user -> getDataPersonal();
 
+        if ($this->get('app.authorization') -> isAdmin($user)) {
+          return $this->redirectToRoute('dashboard_admin');
+        }
 
         return $this->render('static/dashboard.html.twig',[
           'personalData' => $personalData
