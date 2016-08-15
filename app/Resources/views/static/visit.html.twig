@@ -2,7 +2,7 @@
 
 {% block javascripts %}
 {% javascripts '@AppBundle/Resources/public/js/*' %}
-<script src="{{ asset_url }}"></script>
+  <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
 {% endblock %}
 {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
@@ -13,21 +13,44 @@
             Visit Register
         </h1>
     </div>
-
     <div class="jumbotron m-t-3">
-        <div class="datepicker">
-
+      <div class="form-group m-b-3">
+        <div class="col-sm-12">
+          <select id="doctor" name="doctors" class="doctor form-control">
+            <option disabled selected value> -- Choose doctor -- </option>
+            <option value="1">Heniek</option>
+            <option value="2">zdenek</option>
+          </select>
+          </div>
+      </div>
+        <div class="datepicker display-none">
         </div>
-        <script>
-          $( function() {
-            $( ".datepicker" ).datepicker();
-          } );
-          $( function() {
-            $( ".datepicker" ).on('change', function(){
-              console.log($( ".datepicker" ).val());
-            })
-          } );
-        </script>
+        <table class="table table-inverse display-none">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Hour</th>
+            <th>Check</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+              <td> 15.08.2016 </td>
+              <td> 15:20 </td>
+              <td>
+                <label>
+                  <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked=""></th>
+                  Check
+                </label>
+              </td>
+        </tr>
+        </tbody>
+      </table>
+        <ul class="ul">
+
+        </ul>
+
+
 
         <div class="container">
             {{form(form)}}
@@ -35,5 +58,56 @@
         </div>
     </div>
 </div>
+<script>
+$('.datepicker').datepicker({
+  dateFormat: "yy-mm-dd",
+  onSelect: function(dateText, inst) {
+    $('.table').removeClass('display-none')
+    var dateVal = dateText;
+    var doctorVal = $("#doctor option:selected").text();
+    var url = '{{path('get_visits',{'date':'dtVal', 'doctor':'dcVal'})}}';
+    url = url.replace("dtVal", dateVal);
+    url = url.replace("dcVal", doctorVal);
 
+            $.ajax({
+                type: "get",
+                url: url,
+                dataType: "json",
+                success: function(response) {
+                    console.log(response);
+                }
+            }
+          );
+
+  }
+});
+
+
+      // $('.datepicker').datepicker({
+      //   var url = '{{path('get_visits',{'date':'dtVal', 'doctor':'dcVal'})}}'
+      //
+      //     onSelect: function(dateText, inst) {
+      //
+      //         var dateVal = dateText;
+      //         var doctorVal = $("#doctor option:selected").text();
+      //         var url = '{{path('get_visits',{'date':'dtVal', 'doctor':'dcVal'})}}'
+      //         console.log(url);
+      //         url = url.replace("dtVal", dateVal);
+      //         url = url.replace("dcVal", doctorVal);
+      //
+      //         console.log(url);
+      //         $.ajax({
+      //             type: "get",
+      //             url: url,
+      //             dataType: "json",
+      //             success: function(response) {
+      //                 console.log(response);
+      //             }
+      //
+      //         }}
+      //       );
+      // });
+
+
+</script>
 {% endblock %}

@@ -4,3 +4,16 @@
 table {
     font-size: 13px;
 }
+.display-none {
+    display: none;
+}
+.ui-widget.ui-widget-content {
+    width: 100%;
+}
+.ui-state-default {
+    height: 90px;
+    text-align: center;
+}
+.ui-state-default {
+    text-align: center;
+}

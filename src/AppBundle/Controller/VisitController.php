@@ -7,6 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\VisitRegisterForm;
 use AppBundle\Entity\Visit;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\Response;
 
 class VisitController extends Controller
 {
@@ -35,5 +38,26 @@ class VisitController extends Controller
         return $this->render('static/visit.html.twig',[
           'form' => $form -> createView()
         ]);
+    }
+
+    /**
+    * @Route("/search/{date}/{doctor}",  name="get_visits")
+    * @Method("GET")
+    */
+    public function getVisits($date, $doctor)
+    {
+      $em = $this->getDoctrine()->getManager();
+      $repository = $this -> getDoctrine() -> getRepository('AppBundle:Visit');
+      $query = $repository
+              ->createQueryBuilder('v')
+              ->where('v.date LIKE :date')
+              // ->andWhere('v.doctor LIKE :doctor')
+              ->setParameter('date', '%'.$date.'%')
+              // ->setParameter('doctor', '%'.$doctor.'%')
+              ->getQuery();
+      $visits = $query -> getArrayResult();
+
+      return new JsonResponse($visits);
+
     }
 }
