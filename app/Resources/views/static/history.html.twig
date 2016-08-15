@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="page-header">
+            <h1 class="display-3">
+                Medical history
+            </h1>
+        </div>
+        <table class="table table-bordered table-inverse m-t-2 ">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>DATE</th>
+                    <th>Description</th>
+                    <th>Medicines</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for visit in visits %}
+                    <tr>
+                        <th>{{loop.index}}</th>
+                        <th>{{visit.created|date('H:i d.m.Y')}}</th>
+                        <th>{{visit.description}}</th>
+                        <th>{{visit.medicines}}</th>
+                    </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block stylesheets %}{% endblock %}

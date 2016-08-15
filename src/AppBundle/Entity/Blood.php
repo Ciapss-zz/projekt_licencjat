@@ -372,4 +372,46 @@ class Blood
     {
         return array('id', 'rbc', 'hgb', 'hct', 'mcv', 'mch', 'mchc', 'wbc', 'plt', 'user_id');
     }
+
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     *
+     * @return Blood
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Set updated
+     *
+     * @param \DateTime $updated
+     *
+     * @return Blood
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+
+        return $this;
+    }
+
+    /**
+     * Set contentChanged
+     *
+     * @param \DateTime $contentChanged
+     *
+     * @return Blood
+     */
+    public function setContentChanged($contentChanged)
+    {
+        $this->contentChanged = $contentChanged;
+
+        return $this;
+    }
 }

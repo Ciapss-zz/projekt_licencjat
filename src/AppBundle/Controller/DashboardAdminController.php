@@ -10,9 +10,9 @@ use AppBundle\Entity\DataPersonal;
 class DashboardAdminController extends Controller
 {
     /**
-     * @Route("/admin/dashboard", name="dashboard_admin")
+     * @Route("/admin/dashboard/{surname}", name="dashboard_admin")
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request, $surname)
     {
       $user = $this -> getUser();
       $personalData = $user -> getDataPersonal();
@@ -20,12 +20,27 @@ class DashboardAdminController extends Controller
       $role = "ROLE_USER";
 
       $query = $repository->createQueryBuilder('u')
+      // ->innerJoin('u.dataPersonal')
       ->where('u.roles LIKE :roles')
+      // ->andWHERE('u.surname LILE :surname')
       ->setParameter('roles', '%"'.$role.'"%')
+      // ->setParameter('surname', '%"'.$surname.'"%')
       ->getQuery();
+      // $em = $this->getDoctrine()->getManager();
+      // $query=$em
+      //   ->createQueryBuilder()
+      //   ->select('u')
+      //   ->from('AppBundle:User','u')
+      //   ->innerJoin('u.dataPersonal','p','WITH', 'p.surname LIKE :surname')
+      //   ->where('u.roles LIKE :roles')
+      //   // ->orWhere('p.surname LIKE :surname')
+      //   ->setParameter('roles', '%"'.$role.'"%')
+      //   ->setParameter('surname', '%"'.$surname.'"%')
+      //   ->getQuery();
+
 
       $patients = $query->getResult();
-
+      dump($patients);
       return $this->render('admin/dashboard.html.twig',[
         'personalData' => $personalData,
         'patients' => $patients

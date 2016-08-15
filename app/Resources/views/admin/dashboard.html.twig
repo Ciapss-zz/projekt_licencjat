@@ -12,6 +12,7 @@
     <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
     <hr class="m-y-2">
     <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+    <input type="text" id="" name="" maxlength="45" class="search" placeholder="Search">
     <table class="table table-bordered table-inverse">
         <thead>
             <tr>
@@ -22,7 +23,7 @@
                 <th>Street</th>
                 <th>Post code</th>
                 <th>City</th>
-                <th>Male/Female</th>
+                <th>Medical History </th>
                 <th>Blood Test</th>
                 <th>Options</th>
             </tr>
@@ -37,7 +38,11 @@
                 <th>{{patient.dataPersonal.street}}</th>
                 <th>{{patient.dataPersonal.postCode}}</th>
                 <th>{{patient.dataPersonal.city}}</th>
-                <th>{{patient.dataPersonal.sex}}</th>
+                <th>
+                  <div class="btn-group" role="group">
+                    <a href="{{path('history_add', {'id':patient.id})}}"><button type="button" class="btn btn-primary btn-sm ">Medical History</button></a>
+                  </div>
+                </th>
                 <th>
                   <div class="btn-group" role="group">
                     <a href="{{path('blood_add', {'id':patient.id})}}"><button type="button" class="btn btn-success btn-sm ">Blood test</button></a>
@@ -62,4 +67,87 @@
 
 {% block stylesheets %}
 
+{% endblock %}
+
+{% block javascript %}
+  {{parent()}}
+  <script type="text/javascript">
+$(document).ready(function() {
+    $('.search').on('keyup', function() {
+      if ($(this).val().length > 2) {
+      var value= $(this).val();
+      var url='{{path('helpers',{'text':'val'})}}'
+      url = url.replace("val", value);
+        $.ajax({
+            type: "get",
+            url: url,
+            dataType: "json",
+            success: function(response) {
+              console.log(response);
+                // console.log($('.form__input--menu').html(response[0]['name']));
+                  $('.search__hint').addClass('search__hint--active');
+                  $('.search__hint--company').html('');
+                  $('.search__hint--order').html('');
+                  $('.search__hint--ad').html('');
+                  var companyList = $('.search__hint--company')
+                  var orderList = $('.search__hint--order')
+                  var adList = $('.search__hint--ad')
+                  $.each(response, function(j){
+                    switch (j) {
+                      case 'company':
+
+                      $.each(response[j], function(i)
+                      {
+
+                          var li = $('<li/>')
+                              .addClass('lista_element--company')
+                              .appendTo(companyList);
+                          var aaa = $('<a/>')
+                              .addClass('ui-all')
+                              .text(response[j][i]['name'])
+                              .attr('href', response[j][i]['url'])
+                              .appendTo(li);
+                      });
+                        break;
+                      case 'order':
+                      $.each(response[j], function(i)
+                      {
+                          var li = $('<li/>')
+                              .addClass('lista_element--order')
+                              .appendTo(orderList);
+                          var aaa = $('<a/>')
+                              .addClass('ui-all')
+                              .text(response[j][i]['title'])
+                              .attr('href', response[j][i]['url'])
+                              .appendTo(li);
+                      });
+                        break;
+                      case 'ad':
+                      $.each(response[j], function(i)
+                      {
+                          var li = $('<li/>')
+                              .addClass('lista_element--ad')
+                              .appendTo(adList);
+                          var aaa = $('<a/>')
+                              .addClass('ui-all')
+                              .text(response[j][i]['title'])
+                              .attr('href', response[j][i]['url'])
+                              .appendTo(li);
+                      });
+                        break;
+                      default:
+                    }
+                  });
+            },
+            error: function(response) {
+              $('.search__hint').removeClass('search__hint--active');
+            }
+        });
+}
+if($(this).val().length < 3 && $(this).is(":focus")){
+$('.search__hint').removeClass('search__hint--active');
+}
+    })
+})
+</script>
 {% endblock %}

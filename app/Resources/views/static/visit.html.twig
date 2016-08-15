@@ -1,6 +1,11 @@
 {% extends 'base.html.twig' %}
-{% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
 
+{% block javascripts %}
+{% javascripts '@AppBundle/Resources/public/js/*' %}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+{% endblock %}
+{% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
 {% block body %}
 <div class="container">
     <div class="page-header">
@@ -13,7 +18,16 @@
         <div class="datepicker">
 
         </div>
-
+        <script>
+          $( function() {
+            $( ".datepicker" ).datepicker();
+          } );
+          $( function() {
+            $( ".datepicker" ).on('change', function(){
+              console.log($( ".datepicker" ).val());
+            })
+          } );
+        </script>
 
         <div class="container">
             {{form(form)}}
@@ -21,9 +35,5 @@
         </div>
     </div>
 </div>
-
-{% endblock %}
-
-{% block stylesheets %}
 
 {% endblock %}

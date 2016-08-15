@@ -38,6 +38,12 @@ class User extends BaseUser
      */
     protected $visits;
 
+    /**
+     * @ORM\OneToMany(targetEntity="History", mappedBy="user")
+     * @ORM\JoinColumn(name="id", referencedColumnName="user_id", nullable=false)
+     */
+    protected $histories;
+
     public function __construct()
     {
         parent::__construct();
@@ -144,5 +150,42 @@ class User extends BaseUser
      {
          return $this->visits;
      }
+
+
+     /**
+     * Add History entity to collection (one to many).
+     *
+     * @param \Entity\History $history
+     * @return \Entity\User
+     */
+    public function addHistory(History $history)
+    {
+        $this->histories[] = $history;
+
+        return $this;
+    }
+
+    /**
+     * Remove History entity from collection (one to many).
+     *
+     * @param \Entity\History $history
+     * @return \Entity\User
+     */
+    public function removeHistory(History $history)
+    {
+        $this->histories->removeElement($history);
+
+        return $this;
+    }
+
+    /**
+     * Get History entity collection (one to many).
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getHistories()
+    {
+        return $this->histories;
+    }
 
 }
